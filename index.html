@@ -48,8 +48,8 @@
       box-shadow: 0 4px 12px rgba(255, 75, 114, 0.25);
     }
 
-    /* HALAMAN 1: MINIGAME TANGKAP PAW KUCING */
-    #gameScreen {
+    /* HALAMAN 1: PILIH KUCING PEMEGANG SURAT */
+    #catSelectScreen {
       position: fixed;
       top: 0;
       left: 0;
@@ -63,7 +63,7 @@
       background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
       padding: 20px;
       text-align: center;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.6s ease;
     }
 
     .game-title {
@@ -81,98 +81,61 @@
       padding: 8px 18px;
       border-radius: 30px;
       backdrop-filter: blur(5px);
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       font-weight: 600;
-    }
-
-    .score-board {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #ff4b72;
-      background: white;
-      padding: 6px 22px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-
-    .flying-paw {
-      position: absolute;
-      font-size: 3rem;
-      cursor: pointer;
-      animation: float 2.5s infinite ease-in-out alternate;
-      transition: transform 0.2s;
-    }
-    .flying-paw:active { transform: scale(1.3); }
-
-    @keyframes float {
-      0% { transform: translateY(0px) rotate(-10deg); }
-      100% { transform: translateY(-20px) rotate(10deg); }
-    }
-
-    /* HALAMAN 2: PILIH KUCING PEMEGANG SURAT */
-    #catSelectScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 90;
-      background: linear-gradient(135deg, #ffc3a0 0%, #ffa8a8 100%);
-      padding: 20px;
-      text-align: center;
     }
 
     .cat-container {
       display: flex;
       gap: 15px;
-      margin-top: 25px;
       justify-content: center;
       width: 100%;
       max-width: 380px;
     }
 
     .cat-card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      padding: 15px 10px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 22px;
+      padding: 20px 10px;
       flex: 1;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      border: 2px solid #fff;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.2);
+      border: 3px solid #fff;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     .cat-card:hover, .cat-card:active {
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 12px 25px rgba(255, 75, 114, 0.3);
+      transform: translateY(-10px) scale(1.08);
+      box-shadow: 0 15px 30px rgba(255, 75, 114, 0.35);
     }
 
     .cat-avatar {
-      font-size: 3.5rem;
+      font-size: 3.8rem;
       line-height: 1;
-      margin-bottom: 5px;
     }
 
     .letter-icon {
-      font-size: 1.5rem;
-      margin-top: -10px;
+      font-size: 2rem;
+      margin-top: -12px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
     }
 
     .cat-name {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: #ff4b72;
-      margin-top: 5px;
+      margin-top: 6px;
     }
 
-    /* OVERLAY ANIMASI HUJAN KUCING */
+    /* OVERLAY ANIMASI HUJAN KUCING & TRANSISI */
     #catRainOverlay {
       position: fixed;
       top: 0;
@@ -186,17 +149,17 @@
 
     .falling-cat {
       position: absolute;
-      font-size: 2.5rem;
-      animation: fall 1.2s forwards cubic-bezier(0.25, 1, 0.5, 1);
+      font-size: 2.8rem;
+      animation: fall 1.3s forwards cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     @keyframes fall {
       0% { transform: translateY(-100px) rotate(0deg) scale(0.5); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(100vh) rotate(360deg) scale(1.2); opacity: 0; }
+      40% { opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg) scale(1.3); opacity: 0; }
     }
 
-    /* HALAMAN 3: UTAMA */
+    /* HALAMAN 2: UTAMA (KARTU UCAPAN) */
     #mainScreen {
       display: flex;
       width: 100vw;
@@ -321,19 +284,10 @@
   <!-- OVERLAY TRANSISI HUJAN KUCING -->
   <div id="catRainOverlay"></div>
 
-  <!-- HALAMAN 1: GAME TANGKAP PAW KUCING -->
-  <div id="gameScreen">
-    <h1 class="game-title">Catch the Paws! 🐾</h1>
-    <p class="game-instructions">Tangkap 3 jejak kaki kucing dulu ya! 🐱</p>
-    <div class="score-board">Paw Terkumpul: <span id="score">0</span> / 3</div>
-    
-    <div id="pawContainer"></div>
-  </div>
-
-  <!-- HALAMAN 2: PILIH KUCING KURIR SURAT -->
+  <!-- HALAMAN 1: PILIH KUCING KURIR SURAT -->
   <div id="catSelectScreen">
-    <h1 class="game-title">Pilih Kucing Kurir! ✉️</h1>
-    <p class="game-instructions">Pilih salah satu kucing yang membawa surat ucapanmu!</p>
+    <h1 class="game-title">Surat Spesial Buatmu! ✉️</h1>
+    <p class="game-instructions">Pilih salah satu kucing yang memegang suratmu! 🐱</p>
     
     <div class="cat-container">
       <div class="cat-card" onclick="selectCat('Si Orange')">
@@ -354,7 +308,7 @@
     </div>
   </div>
 
-  <!-- HALAMAN 3: UTAMA (KARTU UCAPAN) -->
+  <!-- HALAMAN 2: UTAMA (KARTU UCAPAN) -->
   <div id="mainScreen">
     <div class="card-container">
       
@@ -366,7 +320,7 @@
       <!-- 2. Foto Pacar -->
       <div class="fade-sequence">
         <div class="photo-frame">
-          <img src="foto.jpg" alt="Foto Pacar">
+          <img src="mypacar.jpeg" alt="Foto Pacar">
         </div>
       </div>
 
@@ -415,47 +369,6 @@
       isPlaying = !isPlaying;
     }
 
-    // Minigame Paw Logic
-    let score = 0;
-    const targetScore = 3;
-
-    function createPaw() {
-      const container = document.getElementById('pawContainer');
-      const paw = document.createElement('div');
-      paw.classList.add('flying-paw');
-      paw.innerHTML = '🐾';
-      
-      const x = Math.random() * (window.innerWidth - 80) + 20;
-      const y = Math.random() * (window.innerHeight - 220) + 120;
-      
-      paw.style.left = `${x}px`;
-      paw.style.top = `${y}px`;
-
-      paw.onclick = () => {
-        score++;
-        document.getElementById('score').innerText = score;
-        paw.remove();
-
-        if (score < targetScore) {
-          createPaw();
-        } else {
-          showCatSelectScreen();
-        }
-      };
-
-      container.appendChild(paw);
-    }
-
-    createPaw();
-    createPaw();
-
-    // Tampilkan Pilihan Kucing
-    function showCatSelectScreen() {
-      document.getElementById('gameScreen').style.display = 'none';
-      const catSelectScreen = document.getElementById('catSelectScreen');
-      catSelectScreen.style.display = 'flex';
-    }
-
     // Aksi Pilih Kucing
     function selectCat(catName) {
       playAudio();
@@ -463,7 +376,6 @@
 
       const catSelectScreen = document.getElementById('catSelectScreen');
       catSelectScreen.style.opacity = '0';
-      catSelectScreen.style.transition = 'opacity 0.5s ease';
 
       setTimeout(() => {
         catSelectScreen.style.display = 'none';
@@ -474,18 +386,18 @@
       }, 700);
     }
 
-    // Efek Hujan Kucing
+    // Efek Hujan Kucing & Paw
     function triggerCatRain() {
       const overlay = document.getElementById('catRainOverlay');
       overlay.style.display = 'block';
-      const catEmojis = ['🐱', '😸', '😻', '🐾', '😽', '💌'];
+      const catEmojis = ['🐱', '😸', '😻', '🐾', '😽', '💌', '💖'];
 
-      for (let i = 0; i < 35; i++) {
+      for (let i = 0; i < 40; i++) {
         const cat = document.createElement('div');
         cat.classList.add('falling-cat');
         cat.innerText = catEmojis[Math.floor(Math.random() * catEmojis.length)];
         cat.style.left = `${Math.random() * 100}vw`;
-        cat.style.animationDelay = `${Math.random() * 0.8}s`;
+        cat.style.animationDelay = `${Math.random() * 0.7}s`;
         overlay.appendChild(cat);
       }
 
@@ -506,8 +418,8 @@
 
     function efekConfetti() {
       confetti({
-        particleCount: 50,
-        spread: 60,
+        particleCount: 60,
+        spread: 70,
         origin: { y: 0.6 },
         colors: ['#ff4b72', '#ff79c6', '#ffffff']
       });

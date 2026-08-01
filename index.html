@@ -48,7 +48,7 @@
       box-shadow: 0 4px 12px rgba(255, 75, 114, 0.25);
     }
 
-    /* HALAMAN 1: PILIH KUCING PEMEGANG SURAT */
+    /* HALAMAN 1: PILIH KUCING (GRID 6 KUCING) */
     #catSelectScreen {
       position: fixed;
       top: 0;
@@ -68,71 +68,106 @@
 
     .game-title {
       font-family: 'Sacramento', cursive;
-      font-size: 3rem;
+      font-size: 2.8rem;
       color: #fff;
       text-shadow: 2px 2px 10px rgba(255, 75, 114, 0.4);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .game-instructions {
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       background: rgba(255, 255, 255, 0.25);
       padding: 8px 18px;
       border-radius: 30px;
       backdrop-filter: blur(5px);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       font-weight: 600;
     }
 
-    .cat-container {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
+    /* Grid 6 Kucing (2 Baris x 3 Kolom) */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
       width: 100%;
-      max-width: 380px;
+      max-width: 360px;
     }
 
     .cat-card {
+      position: relative;
       background: rgba(255, 255, 255, 0.92);
-      border-radius: 22px;
-      padding: 20px 10px;
-      flex: 1;
+      border-radius: 18px;
+      padding: 12px 8px;
       cursor: pointer;
-      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.2);
+      box-shadow: 0 8px 20px rgba(255, 75, 114, 0.18);
       border: 3px solid #fff;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow: visible;
     }
 
     .cat-card:hover, .cat-card:active {
-      transform: translateY(-10px) scale(1.08);
-      box-shadow: 0 15px 30px rgba(255, 75, 114, 0.35);
+      transform: translateY(-6px) scale(1.05);
+      box-shadow: 0 12px 25px rgba(255, 75, 114, 0.3);
+    }
+
+    /* Animasi Goyang Kucing Salah */
+    .cat-card.wrong {
+      animation: shake 0.4s ease-in-out;
+      border-color: #ff4b4b;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
     }
 
     .cat-avatar {
-      font-size: 3.8rem;
+      font-size: 3rem;
       line-height: 1;
     }
 
-    .letter-icon {
-      font-size: 2rem;
-      margin-top: -12px;
-      animation: pulse 1.5s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-    }
-
     .cat-name {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: #ff4b72;
       margin-top: 6px;
+    }
+
+    /* Elemen Surat Terbang dari Kucing Benar */
+    .pop-letter {
+      position: absolute;
+      font-size: 2.5rem;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+    }
+
+    .pop-letter.animate {
+      animation: popOutLetter 0.9s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popOutLetter {
+      0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+      50% { transform: translate(-50%, -120%) scale(1.8) rotate(-10deg); opacity: 1; }
+      100% { transform: translate(-50%, -200%) scale(1) rotate(10deg); opacity: 0; }
+    }
+
+    /* Pesan Status jika salah milih */
+    #statusMsg {
+      min-height: 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 15px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
     }
 
     /* OVERLAY ANIMASI HUJAN KUCING & TRANSISI */
@@ -284,28 +319,45 @@
   <!-- OVERLAY TRANSISI HUJAN KUCING -->
   <div id="catRainOverlay"></div>
 
-  <!-- HALAMAN 1: PILIH KUCING KURIR SURAT -->
+  <!-- HALAMAN 1: PILIH 1 DARI 6 KUCING -->
   <div id="catSelectScreen">
-    <h1 class="game-title">Surat Spesial Buatmu! ✉️</h1>
-    <p class="game-instructions">Pilih salah satu kucing yang memegang suratmu! 🐱</p>
+    <h1 class="game-title">Tebak Kucing Kurir! ✉️</h1>
+    <p class="game-instructions">Cari kucing mana yang menyembunyikan suratmu! 🐱</p>
     
-    <div class="cat-container">
-      <div class="cat-card" onclick="selectCat('Si Orange')">
+    <div class="cat-grid">
+      <div class="cat-card" onclick="selectCat(0, this)">
+        <div class="pop-letter">💌</div>
         <div class="cat-avatar">🐱</div>
-        <div class="letter-icon">💌</div>
         <div class="cat-name">Si Orange</div>
       </div>
-      <div class="cat-card" onclick="selectCat('Si Putih')">
+      <div class="cat-card" onclick="selectCat(1, this)">
+        <div class="pop-letter">💌</div>
         <div class="cat-avatar">😸</div>
-        <div class="letter-icon">💌</div>
         <div class="cat-name">Si Putih</div>
       </div>
-      <div class="cat-card" onclick="selectCat('Si Belang')">
+      <div class="cat-card" onclick="selectCat(2, this)">
+        <div class="pop-letter">💌</div>
         <div class="cat-avatar">😻</div>
-        <div class="letter-icon">💌</div>
         <div class="cat-name">Si Belang</div>
       </div>
+      <div class="cat-card" onclick="selectCat(3, this)">
+        <div class="pop-letter">💌</div>
+        <div class="cat-avatar">😽</div>
+        <div class="cat-name">Si Abu</div>
+      </div>
+      <div class="cat-card" onclick="selectCat(4, this)">
+        <div class="pop-letter">💌</div>
+        <div class="cat-avatar">😺</div>
+        <div class="cat-name">Si Hitam</div>
+      </div>
+      <div class="cat-card" onclick="selectCat(5, this)">
+        <div class="pop-letter">💌</div>
+        <div class="cat-avatar">😾</div>
+        <div class="cat-name">Si Gendut</div>
+      </div>
     </div>
+
+    <div id="statusMsg"></div>
   </div>
 
   <!-- HALAMAN 2: UTAMA (KARTU UCAPAN) -->
@@ -345,6 +397,10 @@
   </div>
 
   <script>
+    // Penentuan Kucing Pemegang Surat secara Acak (0 sampai 5)
+    const targetCatIndex = Math.floor(Math.random() * 6);
+    let isFinished = false;
+
     // Audio Control
     const bgMusic = document.getElementById('bgMusic');
     let isPlaying = false;
@@ -370,20 +426,49 @@
     }
 
     // Aksi Pilih Kucing
-    function selectCat(catName) {
-      playAudio();
-      triggerCatRain();
+    function selectCat(index, cardElement) {
+      if (isFinished) return;
 
-      const catSelectScreen = document.getElementById('catSelectScreen');
-      catSelectScreen.style.opacity = '0';
+      const statusMsg = document.getElementById('statusMsg');
 
-      setTimeout(() => {
-        catSelectScreen.style.display = 'none';
-        const mainScreen = document.getElementById('mainScreen');
-        mainScreen.classList.add('active');
-        mulaiTransisiMulus();
-        efekConfetti();
-      }, 700);
+      if (index === targetCatIndex) {
+        // BENAR: Ada suratnya!
+        isFinished = true;
+        playAudio();
+        statusMsg.innerText = "Yayy! Kamu menemukan suratnya! 💌✨";
+        
+        // Munculkan animasi surat keluar dari kucing
+        const popLetter = cardElement.querySelector('.pop-letter');
+        if (popLetter) {
+          popLetter.classList.add('animate');
+        }
+
+        setTimeout(() => {
+          triggerCatRain();
+        }, 300);
+
+        const catSelectScreen = document.getElementById('catSelectScreen');
+        
+        setTimeout(() => {
+          catSelectScreen.style.opacity = '0';
+          setTimeout(() => {
+            catSelectScreen.style.display = 'none';
+            const mainScreen = document.getElementById('mainScreen');
+            mainScreen.classList.add('active');
+            mulaiTransisiMulus();
+            efekConfetti();
+          }, 600);
+        }, 1100);
+
+      } else {
+        // SALAH: Kucing tidak membawa surat
+        cardElement.classList.add('wrong');
+        statusMsg.innerText = "Kucing ini tidak membawa surat 😿 Coba pilih kucing lain ya!";
+        
+        setTimeout(() => {
+          cardElement.classList.remove('wrong');
+        }, 400);
+      }
     }
 
     // Efek Hujan Kucing & Paw

@@ -18,11 +18,14 @@
     }
     
     html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden; /* Anti-scrollbar global */
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #ffe6ea 0%, #ffc3a0 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     /* ==========================================
@@ -39,39 +42,45 @@
       justify-content: center;
       align-items: center;
       z-index: 100;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
       padding: 20px;
       text-align: center;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #gameScreen.fade-out {
+      opacity: 0;
+      transform: scale(1.08);
+      pointer-events: none;
     }
 
     .game-title {
       font-family: 'Sacramento', cursive;
       font-size: 3rem;
       color: #fff;
-      text-shadow: 2px 2px 10px rgba(255, 75, 114, 0.5);
-      margin-bottom: 10px;
+      text-shadow: 2px 2px 10px rgba(255, 75, 114, 0.4);
+      margin-bottom: 8px;
     }
 
     .game-instructions {
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.9rem;
       background: rgba(255, 255, 255, 0.25);
-      padding: 10px 20px;
+      padding: 8px 18px;
       border-radius: 30px;
       backdrop-filter: blur(5px);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       font-weight: 600;
     }
 
     .score-board {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
       color: #ff4b72;
       background: white;
-      padding: 8px 25px;
+      padding: 6px 22px;
       border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
     .flying-heart {
@@ -79,74 +88,81 @@
       font-size: 2.8rem;
       cursor: pointer;
       animation: float 3s infinite ease-in-out alternate;
-      transition: transform 0.1s;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .flying-heart:active { transform: scale(1.3); }
+    .flying-heart:active { transform: scale(1.4); }
 
     @keyframes float {
       0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-25px) rotate(15deg); }
+      100% { transform: translateY(-20px) rotate(12deg); }
     }
 
     /* ==========================================
-       HALAMAN 2: UTAMA (TRANSISI BERURUTAN)
+       HALAMAN 2: UTAMA (TRANSISI SUPER MULUS)
        ========================================== */
     #mainScreen {
-      display: none;
+      display: flex;
       width: 100vw;
       height: 100vh;
       padding: 15px;
       align-items: center;
       justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    #mainScreen.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .card-container {
       background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       border-radius: 25px;
-      padding: 25px;
-      width: 100%;
-      max-width: 420px;
-      max-height: 95vh;
+      padding: 20px;
+      width: 90%;
+      max-width: 380px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
+      box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
       border: 2px solid #fff;
-      overflow-y: auto;
+      overflow: hidden !important; /* Hapus Scrollbar Total */
     }
 
-    /* KELAS UNTUK ANIMASI MUNCUL (FADE IN) */
+    /* ANIMASI FADE-IN SMOOTH BERURUTAN */
     .fade-sequence {
       opacity: 0;
-      transform: translateY(25px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(30px) scale(0.95);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       width: 100%;
       text-align: center;
     }
     
     .fade-sequence.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
 
     .header-title {
       font-family: 'Sacramento', cursive;
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       color: #ff4b72;
       line-height: 1.1;
-      margin-top: 5px;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
 
     .photo-frame {
       width: 100%;
-      height: 230px;
-      border-radius: 20px;
+      height: 190px; /* Ukuran presisi biar muat tanpa scroll */
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-      border: 4px solid #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 12px;
+      border: 3px solid #fff;
       flex-shrink: 0;
     }
 
@@ -156,29 +172,28 @@
       object-fit: cover;
     }
 
-    /* Box Teks Custom */
     .custom-text-box {
       background: #fff0f3;
       border: 2px dashed #ffb3c1;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 20px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
       color: #555;
-      font-size: 0.95rem;
-      line-height: 1.5;
+      font-size: 0.85rem;
+      line-height: 1.45;
       text-align: center;
     }
 
     /* Interactive Section */
     .interactive-question {
       width: 100%;
-      padding-top: 15px;
+      padding-top: 10px;
       border-top: 1px solid #ffe1e6;
     }
     .question-title {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: #ff4b72;
     }
     .yes-no-btns {
@@ -186,19 +201,19 @@
       justify-content: center;
       gap: 15px;
       position: relative;
-      min-height: 40px;
+      min-height: 38px;
     }
     
     .btn {
       background: #ff4b72;
       color: white;
       border: none;
-      padding: 10px 25px;
+      padding: 8px 22px;
       border-radius: 50px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 75, 114, 0.3);
+      box-shadow: 0 4px 12px rgba(255, 75, 114, 0.25);
       transition: all 0.2s ease;
     }
     #btnNo {
@@ -224,7 +239,7 @@
   <div id="mainScreen">
     <div class="card-container">
       
-      <!-- 1. Teks Judul -->
+      <!-- 1. Judul -->
       <div class="fade-sequence">
         <h1 class="header-title">Happy Girlfriend Day! ❤️</h1>
       </div>
@@ -236,14 +251,14 @@
         </div>
       </div>
 
-      <!-- 3. Teks Custom dari Kamu -->
+      <!-- 3. Teks Custom -->
       <div class="fade-sequence">
         <div class="custom-text-box">
           Terima kasih ya udah selalu ada dan bikin hari-hariku jauh lebih indah. Aku beruntung banget punya kamu. Tetap sama aku terus ya, manis! ✨🥰
         </div>
       </div>
 
-      <!-- 4. Pertanyaan & Tombol Kabur -->
+      <!-- 4. Pertanyaan Interaktif -->
       <div class="fade-sequence">
         <div class="interactive-question">
           <p class="question-title">Sayang gak sama aku? 🥺</p>
@@ -271,7 +286,7 @@
       heart.innerHTML = '💖';
       
       const x = Math.random() * (window.innerWidth - 80) + 20;
-      const y = Math.random() * (window.innerHeight - 200) + 120;
+      const y = Math.random() * (window.innerHeight - 220) + 120;
       
       heart.style.left = `${x}px`;
       heart.style.top = `${y}px`;
@@ -296,37 +311,40 @@
 
     function finishGame() {
       efekConfetti();
+      
+      // Muluskan transisi antar halaman
+      const gameScreen = document.getElementById('gameScreen');
+      const mainScreen = document.getElementById('mainScreen');
+
+      gameScreen.classList.add('fade-out');
+
       setTimeout(() => {
-        // Pindah layar
-        document.getElementById('gameScreen').style.display = 'none';
-        document.getElementById('mainScreen').style.display = 'flex';
-        
-        // Jalankan transisi muncul berurutan
-        mulaiTransisi();
-      }, 600);
+        gameScreen.style.display = 'none';
+        mainScreen.classList.add('active');
+        mulaiTransisiMulus();
+      }, 700);
     }
 
     // ==========================================
-    // 2. LOGIKA TRANSISI MUNCUL (FADE SEQUENCE)
+    // 2. LOGIKA TRANSISI BERURUTAN (SMOOTH)
     // ==========================================
-    function mulaiTransisi() {
+    function mulaiTransisiMulus() {
       const elements = document.querySelectorAll('.fade-sequence');
       
       elements.forEach((el, index) => {
-        // Setiap elemen diberi jeda 800 milidetik (0.8 detik) sebelum muncul
         setTimeout(() => {
           el.classList.add('visible');
-        }, index * 800); 
+        }, index * 450); // Jeda antar elemen 0.45 detik biar ngalir mulus
       });
     }
 
     // ==========================================
-    // 3. EFEK & INTERAKSI TOMBOL KABUR
+    // 3. EFEK & INTERAKSI
     // ==========================================
     function efekConfetti() {
       confetti({
-        particleCount: 60,
-        spread: 70,
+        particleCount: 50,
+        spread: 60,
         origin: { y: 0.6 },
         colors: ['#ff4b72', '#ff79c6', '#ffffff']
       });
@@ -334,8 +352,8 @@
 
     function kabur() {
       const btnNo = document.getElementById('btnNo');
-      const x = Math.random() * 140 - 70;
-      const y = Math.random() * 60 - 30;
+      const x = Math.random() * 120 - 60;
+      const y = Math.random() * 50 - 25;
       btnNo.style.transform = `translate(${x}px, ${y}px)`;
     }
 

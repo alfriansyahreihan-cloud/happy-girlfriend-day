@@ -28,7 +28,7 @@
       align-items: center;
     }
 
-    /* Tombol Musik di Pojok Kanan Atas */
+    /* Tombol Musik */
     .music-btn {
       position: fixed;
       top: 15px;
@@ -48,14 +48,75 @@
       box-shadow: 0 4px 12px rgba(255, 75, 114, 0.25);
     }
 
-    /* HALAMAN 1: PILIH KUCING (GRID 6 KUCING) */
-    #catSelectScreen {
+    /* MINIGAME 1: TANGKAP PAW & LOVE */
+    #catchGameScreen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
       display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      z-index: 150;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      padding-top: 40px;
+      text-align: center;
+      transition: opacity 0.6s ease;
+      overflow: hidden;
+    }
+
+    .game-title {
+      font-family: 'Sacramento', cursive;
+      font-size: 2.8rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(255, 75, 114, 0.4);
+      margin-bottom: 4px;
+    }
+
+    .game-instructions {
+      color: #fff;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.25);
+      padding: 6px 16px;
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+      font-weight: 600;
+    }
+
+    .score-board {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ff4b72;
+      background: #fff;
+      padding: 6px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .falling-item {
+      position: absolute;
+      font-size: 2.5rem;
+      cursor: pointer;
+      z-index: 160;
+      animation: fallDown 3s linear forwards;
+    }
+
+    @keyframes fallDown {
+      0% { transform: translateY(-50px) scale(0.8); opacity: 1; }
+      100% { transform: translateY(105vh) scale(1.1); opacity: 0.8; }
+    }
+
+    /* MINIGAME 2: TEBAK KUCING KURIR */
+    #catSelectScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -66,32 +127,13 @@
       transition: opacity 0.6s ease;
     }
 
-    .game-title {
-      font-family: 'Sacramento', cursive;
-      font-size: 2.8rem;
-      color: #fff;
-      text-shadow: 2px 2px 10px rgba(255, 75, 114, 0.4);
-      margin-bottom: 6px;
-    }
-
-    .game-instructions {
-      color: #fff;
-      font-size: 0.88rem;
-      background: rgba(255, 255, 255, 0.25);
-      padding: 8px 18px;
-      border-radius: 30px;
-      backdrop-filter: blur(5px);
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    /* Grid 6 Kucing (2 Baris x 3 Kolom) */
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       width: 100%;
       max-width: 360px;
+      margin-top: 15px;
     }
 
     .cat-card {
@@ -106,15 +148,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow: visible;
     }
 
     .cat-card:hover, .cat-card:active {
       transform: translateY(-6px) scale(1.05);
-      box-shadow: 0 12px 25px rgba(255, 75, 114, 0.3);
     }
 
-    /* Animasi Goyang Kucing Salah */
     .cat-card.wrong {
       animation: shake 0.4s ease-in-out;
       border-color: #ff4b4b;
@@ -126,19 +165,9 @@
       40%, 80% { transform: translateX(8px); }
     }
 
-    .cat-avatar {
-      font-size: 3rem;
-      line-height: 1;
-    }
+    .cat-avatar { font-size: 3rem; line-height: 1; }
+    .cat-name { font-size: 0.75rem; font-weight: 700; color: #ff4b72; margin-top: 6px; }
 
-    .cat-name {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #ff4b72;
-      margin-top: 6px;
-    }
-
-    /* Elemen Surat Terbang dari Kucing Benar */
     .pop-letter {
       position: absolute;
       font-size: 2.5rem;
@@ -155,12 +184,11 @@
     }
 
     @keyframes popOutLetter {
-      0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
       50% { transform: translate(-50%, -120%) scale(1.8) rotate(-10deg); opacity: 1; }
       100% { transform: translate(-50%, -200%) scale(1) rotate(10deg); opacity: 0; }
     }
 
-    /* Pesan Status jika salah milih */
     #statusMsg {
       min-height: 24px;
       font-size: 0.85rem;
@@ -170,7 +198,7 @@
       text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
     }
 
-    /* OVERLAY ANIMASI HUJAN KUCING & TRANSISI */
+    /* OVERLAY TRANSISI HUJAN KUCING & PAW */
     #catRainOverlay {
       position: fixed;
       top: 0;
@@ -194,7 +222,7 @@
       100% { transform: translateY(100vh) rotate(360deg) scale(1.3); opacity: 0; }
     }
 
-    /* HALAMAN 2: UTAMA (KARTU UCAPAN) */
+    /* HALAMAN UTAMA: KARTU UCAPAN */
     #mainScreen {
       display: flex;
       width: 100vw;
@@ -219,12 +247,13 @@
       padding: 20px;
       width: 90%;
       max-width: 380px;
+      max-height: 90vh;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
       border: 2px solid #fff;
-      overflow: hidden !important;
     }
 
     .fade-sequence {
@@ -249,9 +278,11 @@
       margin-bottom: 12px;
     }
 
+    /* Penyesuaian Ukuran Frame Foto Proporsional */
     .photo-frame {
       width: 100%;
-      height: 180px;
+      aspect-ratio: 4 / 3;
+      max-height: 220px;
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -264,13 +295,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
+      display: block;
     }
 
     .custom-text-box {
       background: #fff0f3;
       border: 2px dashed #ffb3c1;
       border-radius: 14px;
-      padding: 10px 12px;
+      padding: 12px;
       margin-bottom: 12px;
       color: #555;
       font-size: 0.82rem;
@@ -299,12 +332,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .share-btn:active {
-      transform: scale(0.96);
-    }
+    .share-btn:active { transform: scale(0.96); }
   </style>
 </head>
 <body>
@@ -316,13 +346,20 @@
   </audio>
   <button class="music-btn" onclick="toggleMusic()" id="musicBtn">🎵</button>
 
-  <!-- OVERLAY TRANSISI HUJAN KUCING -->
+  <!-- OVERLAY HUJAN KUCING -->
   <div id="catRainOverlay"></div>
 
-  <!-- HALAMAN 1: PILIH 1 DARI 6 KUCING -->
+  <!-- MINIGAME 1: TANGKAP PAW & LOVE -->
+  <div id="catchGameScreen">
+    <h1 class="game-title">Tangkap Paw & Love! 🐾</h1>
+    <p class="game-instructions">Ketuk 10 paw/love yang berjatuhan! ❤️</p>
+    <div class="score-board">Skor: <span id="scoreText">0</span> / 10</div>
+  </div>
+
+  <!-- MINIGAME 2: TEBAK KUCING KURIR -->
   <div id="catSelectScreen">
     <h1 class="game-title">Tebak Kucing Kurir! ✉️</h1>
-    <p class="game-instructions">Cari kucing mana yang menyembunyikan suratmu! 🐱</p>
+    <p class="game-instructions">Kucing mana yang menyembunyikan suratmu? 🐱</p>
     
     <div class="cat-grid">
       <div class="cat-card" onclick="selectCat(0, this)">
@@ -360,30 +397,26 @@
     <div id="statusMsg"></div>
   </div>
 
-  <!-- HALAMAN 2: UTAMA (KARTU UCAPAN) -->
+  <!-- HALAMAN UTAMA: KARTU UCAPAN -->
   <div id="mainScreen">
     <div class="card-container">
       
-      <!-- 1. Judul -->
       <div class="fade-sequence">
         <h1 class="header-title">Happy Girlfriend Day! ❤️</h1>
       </div>
 
-      <!-- 2. Foto Pacar -->
       <div class="fade-sequence">
         <div class="photo-frame">
           <img src="mypacar.jpeg" alt="Foto Pacar">
         </div>
       </div>
 
-      <!-- 3. Teks Ucapan -->
       <div class="fade-sequence">
         <div class="custom-text-box">
           Selamat hari pacar sedunia sayang, terima kasih ya telah menjadi wanita yang baik dan selalu kuat dalam menghadapi sebuah masalah, kamu adalah wanita yang paling kusayangi setelah ibu, buat pacarku untuk di spesial ini dan buat kedepannya tolong pertahankan senyuman yang manis ini serta jangan pernah berubah ya, serta menjadi wanita yang baik seperti ini, jangan pernah segan untuk cerita semuanya ke aku ya sayang, aku kan selalu menjadi pendengar terbaik buat kamu, aku sayang kamu ❤️
         </div>
       </div>
 
-      <!-- 4. Tombol Share Card -->
       <div class="fade-sequence">
         <div class="interactive-question">
           <button class="share-btn" onclick="shareCard()">
@@ -397,10 +430,6 @@
   </div>
 
   <script>
-    // Penentuan Kucing Pemegang Surat secara Acak (0 sampai 5)
-    const targetCatIndex = Math.floor(Math.random() * 6);
-    let isFinished = false;
-
     // Audio Control
     const bgMusic = document.getElementById('bgMusic');
     let isPlaying = false;
@@ -409,9 +438,7 @@
       bgMusic.play().then(() => {
         isPlaying = true;
         document.getElementById('musicBtn').innerText = '🎵';
-      }).catch(err => {
-        console.log("Autoplay diblokir browser, pengguna perlu klik tombol musik.");
-      });
+      }).catch(err => console.log("Autoplay diblokir browser"));
     }
 
     function toggleMusic() {
@@ -425,27 +452,74 @@
       isPlaying = !isPlaying;
     }
 
-    // Aksi Pilih Kucing
+    /* LOGIKA MINIGAME 1: TANGKAP PAW & LOVE */
+    let score = 0;
+    const targetScore = 10;
+    let spawnInterval;
+
+    function startCatchGame() {
+      spawnInterval = setInterval(() => {
+        if (score >= targetScore) return;
+
+        const item = document.createElement('div');
+        item.classList.add('falling-item');
+        
+        const items = ['🐾', '💖', '❤️', '🐾', '💕'];
+        item.innerText = items[Math.floor(Math.random() * items.length)];
+        
+        item.style.left = `${Math.random() * 80 + 10}vw`;
+        
+        item.onclick = function() {
+          score++;
+          document.getElementById('scoreText').innerText = score;
+          item.remove();
+          
+          if (score >= targetScore) {
+            clearInterval(spawnInterval);
+            finishCatchGame();
+          }
+        };
+
+        document.getElementById('catchGameScreen').appendChild(item);
+
+        setTimeout(() => {
+          if (item.parentNode) item.remove();
+        }, 3000);
+      }, 500);
+    }
+
+    function finishCatchGame() {
+      const screen1 = document.getElementById('catchGameScreen');
+      screen1.style.opacity = '0';
+      
+      setTimeout(() => {
+        screen1.style.display = 'none';
+        const screen2 = document.getElementById('catSelectScreen');
+        screen2.style.display = 'flex';
+      }, 600);
+    }
+
+    // Jalankan Game 1 saat dimuat
+    startCatchGame();
+
+    /* LOGIKA MINIGAME 2: TEBAK KUCING KURIR */
+    const targetCatIndex = Math.floor(Math.random() * 6);
+    let isFinished = false;
+
     function selectCat(index, cardElement) {
       if (isFinished) return;
 
       const statusMsg = document.getElementById('statusMsg');
 
       if (index === targetCatIndex) {
-        // BENAR: Ada suratnya!
         isFinished = true;
         playAudio();
         statusMsg.innerText = "Yayy! Kamu menemukan suratnya! 💌✨";
         
-        // Munculkan animasi surat keluar dari kucing
         const popLetter = cardElement.querySelector('.pop-letter');
-        if (popLetter) {
-          popLetter.classList.add('animate');
-        }
+        if (popLetter) popLetter.classList.add('animate');
 
-        setTimeout(() => {
-          triggerCatRain();
-        }, 300);
+        setTimeout(() => triggerCatRain(), 300);
 
         const catSelectScreen = document.getElementById('catSelectScreen');
         
@@ -461,17 +535,12 @@
         }, 1100);
 
       } else {
-        // SALAH: Kucing tidak membawa surat
         cardElement.classList.add('wrong');
         statusMsg.innerText = "Kucing ini tidak membawa surat 😿 Coba pilih kucing lain ya!";
-        
-        setTimeout(() => {
-          cardElement.classList.remove('wrong');
-        }, 400);
+        setTimeout(() => cardElement.classList.remove('wrong'), 400);
       }
     }
 
-    // Efek Hujan Kucing & Paw
     function triggerCatRain() {
       const overlay = document.getElementById('catRainOverlay');
       overlay.style.display = 'block';
@@ -495,9 +564,7 @@
     function mulaiTransisiMulus() {
       const elements = document.querySelectorAll('.fade-sequence');
       elements.forEach((el, index) => {
-        setTimeout(() => {
-          el.classList.add('visible');
-        }, index * 450);
+        setTimeout(() => el.classList.add('visible'), index * 450);
       });
     }
 
@@ -510,7 +577,6 @@
       });
     }
 
-    // Fungsi Share Card
     function shareCard() {
       efekConfetti();
       if (navigator.share) {

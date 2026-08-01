@@ -28,7 +28,7 @@
       align-items: center;
     }
 
-    /* Tombol Mute/Play Musik di Pojok Kanan Atas */
+    /* Tombol Musik di Pojok Kanan Atas */
     .music-btn {
       position: fixed;
       top: 15px;
@@ -172,7 +172,7 @@
 
     .photo-frame {
       width: 100%;
-      height: 175px;
+      height: 180px;
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -199,60 +199,39 @@
       text-align: center;
     }
 
-    /* DESAIN DESAIN BARU INTERAKTIF: LOVE BADGE & GIFT CARD */
+    /* DESAIN TOMBOL SHARE CARD */
     .interactive-question {
       width: 100%;
-      padding-top: 8px;
+      padding-top: 10px;
       border-top: 1px solid #ffe1e6;
     }
-    
-    .question-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: #ff4b72;
-    }
 
-    .action-cards {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
+    .share-btn {
       width: 100%;
-    }
-
-    .card-btn {
-      flex: 1;
       background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
       color: white;
       border: none;
-      border-radius: 15px;
-      padding: 10px 8px;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
+      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.35);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+      gap: 8px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .card-btn:active {
-      transform: scale(0.95);
-    }
-
-    .card-btn .icon {
-      font-size: 1.3rem;
-    }
-
-    .card-btn .label {
-      font-size: 0.75rem;
-      font-weight: 600;
+    .share-btn:active {
+      transform: scale(0.96);
     }
   </style>
 </head>
 <body>
 
-  <!-- Audio Lagu My Girl (Gunakan fallback CDN terpercaya) -->
+  <!-- Audio Lagu My Girl -->
   <audio id="bgMusic" loop preload="auto">
     <source src="music.mp3" type="audio/mpeg">
     <source src="https://raw.githubusercontent.com/the-temptations-my-girl/audio/main/mygirl.mp3" type="audio/mpeg">
@@ -284,27 +263,20 @@
         </div>
       </div>
 
-      <!-- 3. Teks Custom -->
+      <!-- 3. Teks Ucapan -->
       <div class="fade-sequence">
         <div class="custom-text-box">
           Selamat hari pacar sedunia sayang, terima kasih ya telah menjadi wanita yang baik dan selalu kuat dalam menghadapi sebuah masalah, kamu adalah wanita yang paling kusayangi setelah ibu, buat pacarku untuk di spesial ini dan buat kedepannya tolong pertahankan senyuman yang manis ini serta jangan pernah berubah ya, serta menjadi wanita yang baik seperti ini, jangan pernah segan untuk cerita semuanya ke aku ya sayang, aku kan selalu menjadi pendengar terbaik buat kamu, aku sayang kamu ❤️
         </div>
       </div>
 
-      <!-- 4. Pilihan Akses Baru (Interaktif Cantik) -->
+      <!-- 4. Tombol Share Card -->
       <div class="fade-sequence">
         <div class="interactive-question">
-          <p class="question-title">Kirim Peluk & Hadiah Buat Kamu ✨</p>
-          <div class="action-cards">
-            <button class="card-btn" onclick="kirimPeluk()">
-              <span class="icon">🤗</span>
-              <span class="label">Kirim Peluk</span>
-            </button>
-            <button class="card-btn" onclick="bukaKado()">
-              <span class="icon">🎁</span>
-              <span class="label">Buka Kado</span>
-            </button>
-          </div>
+          <button class="share-btn" onclick="shareCard()">
+            <span>✨ Share Card</span>
+            <span>💖</span>
+          </button>
         </div>
       </div>
 
@@ -312,7 +284,7 @@
   </div>
 
   <script>
-    // Audio Control
+    // Audio Player
     const bgMusic = document.getElementById('bgMusic');
     let isPlaying = false;
 
@@ -372,7 +344,7 @@
 
     function finishGame() {
       efekConfetti();
-      playAudio(); // Putar musik saat game selesai
+      playAudio();
 
       const gameScreen = document.getElementById('gameScreen');
       const mainScreen = document.getElementById('mainScreen');
@@ -404,15 +376,19 @@
       });
     }
 
-    // Aksi Tombol Baru
-    function kirimPeluk() {
-      alert("Virtual Hug Sent! 🤗 Papap erat-erat buat kamu hari ini ❤️");
+    // Fungsi Share Card
+    function shareCard() {
       efekConfetti();
-    }
-
-    function bukaKado() {
-      alert("Kado utamanya adalah cinta aku yang tulus buat kamu selamanya! 🎁✨");
-      efekConfetti();
+      if (navigator.share) {
+        navigator.share({
+          title: 'Happy Girlfriend Day! ❤️',
+          text: 'Lihat kartu ucapan spesial Girlfriend Day ini! 💖',
+          url: window.location.href,
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link kartu ucapan berhasil disalin! Tinggal kirim ke pacarmu 💌');
+      }
     }
   </script>
 </body>

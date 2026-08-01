@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Happy Girlfriend Day! ❤️</title>
   <!-- Google Fonts & Canvas Confetti -->
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Sacramento&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   
   <style>
@@ -74,7 +74,6 @@
       margin-bottom: 20px;
     }
 
-    /* Target Hati Terbang */
     .flying-heart {
       position: absolute;
       font-size: 2.8rem;
@@ -82,9 +81,7 @@
       animation: float 3s infinite ease-in-out alternate;
       transition: transform 0.1s;
     }
-    .flying-heart:active {
-      transform: scale(1.3);
-    }
+    .flying-heart:active { transform: scale(1.3); }
 
     @keyframes float {
       0% { transform: translateY(0px) rotate(0deg); }
@@ -92,7 +89,7 @@
     }
 
     /* ==========================================
-       HALAMAN 2: UTAMA (FULLSCREEN & RESPONSIVE)
+       HALAMAN 2: UTAMA (TRANSISI BERURUTAN)
        ========================================== */
     #mainScreen {
       display: none;
@@ -107,17 +104,30 @@
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       border-radius: 25px;
-      padding: 20px;
+      padding: 25px;
       width: 100%;
       max-width: 420px;
       max-height: 95vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
       box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
       border: 2px solid #fff;
       overflow-y: auto;
+    }
+
+    /* KELAS UNTUK ANIMASI MUNCUL (FADE IN) */
+    .fade-sequence {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .fade-sequence.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .header-title {
@@ -126,22 +136,16 @@
       color: #ff4b72;
       line-height: 1.1;
       margin-top: 5px;
+      margin-bottom: 20px;
     }
 
-    .subtitle {
-      font-size: 0.8rem;
-      color: #888;
-      margin-bottom: 12px;
-    }
-
-    /* Frame Foto Pas Layar */
     .photo-frame {
       width: 100%;
       height: 230px;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      margin-bottom: 12px;
+      margin-bottom: 20px;
       border: 4px solid #fff;
       flex-shrink: 0;
     }
@@ -152,57 +156,29 @@
       object-fit: cover;
     }
 
-    /* Style Terminal */
-    .terminal-box {
-      width: 100%;
-      background: #1e1e1e;
+    /* Box Teks Custom */
+    .custom-text-box {
+      background: #fff0f3;
+      border: 2px dashed #ffb3c1;
       border-radius: 15px;
-      padding: 12px 15px;
-      margin-bottom: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-      text-align: left;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.82rem;
-      min-height: 100px;
-      cursor: pointer;
+      padding: 15px;
+      margin-bottom: 20px;
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      text-align: center;
     }
-
-    .terminal-header {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-    .dot { width: 9px; height: 9px; border-radius: 50%; }
-    .dot-red { background: #ff5f56; }
-    .dot-yellow { background: #ffbd2e; }
-    .dot-green { background: #27c93f; }
-    
-    .terminal-content {
-      color: #a9dc76;
-      line-height: 1.4;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 7px;
-      height: 14px;
-      background-color: #ff79c6;
-      margin-left: 3px;
-      animation: blink 0.8s infinite;
-      vertical-align: middle;
-    }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
     /* Interactive Section */
     .interactive-question {
       width: 100%;
-      padding-top: 10px;
+      padding-top: 15px;
       border-top: 1px solid #ffe1e6;
     }
     .question-title {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       color: #ff4b72;
     }
     .yes-no-btns {
@@ -217,7 +193,7 @@
       background: #ff4b72;
       color: white;
       border: none;
-      padding: 8px 22px;
+      padding: 10px 25px;
       border-radius: 50px;
       font-size: 0.85rem;
       font-weight: 600;
@@ -238,46 +214,46 @@
   <!-- ==================== HALAMAN 1: MINIGAME ==================== -->
   <div id="gameScreen">
     <h1 class="game-title">Catch My Love! 💖</h1>
-    <p class="game-instructions">Tangkap 5 hati untuk membuka pesan rahasia! 💌</p>
+    <p class="game-instructions">Tangkap 5 hati untuk membuka hadiahmu! 💌</p>
     <div class="score-board">Hati Terkumpul: <span id="score">0</span> / 5</div>
     
-    <!-- Hati yang terbang di-generate via JavaScript -->
     <div id="heartContainer"></div>
   </div>
 
   <!-- ==================== HALAMAN 2: UTAMA ==================== -->
   <div id="mainScreen">
     <div class="card-container">
-      <div>
+      
+      <!-- 1. Teks Judul -->
+      <div class="fade-sequence">
         <h1 class="header-title">Happy Girlfriend Day! ❤️</h1>
-        <p class="subtitle">Executing love_script.js...</p>
       </div>
 
-      <!-- FOTO PACAR -->
-      <div class="photo-frame">
-        <img src="foto.jpg" alt="Foto Pacar">
-      </div>
-
-      <!-- TERMINAL (Klik pada terminal untuk ganti pesan) -->
-      <div class="terminal-box" onclick="nextMessage()">
-        <div class="terminal-header">
-          <div class="dot dot-red"></div>
-          <div class="dot dot-yellow"></div>
-          <div class="dot dot-green"></div>
-        </div>
-        <div class="terminal-content">
-          <span style="color: #ff79c6;">&gt;</span> <span id="textTerminal"></span><span class="cursor"></span>
+      <!-- 2. Foto Pacar -->
+      <div class="fade-sequence">
+        <div class="photo-frame">
+          <img src="foto.jpg" alt="Foto Pacar">
         </div>
       </div>
 
-      <!-- FITUR INTERAKTIF (Tombol Kabur) -->
-      <div class="interactive-question">
-        <p class="question-title">Sayang gak sama aku? 🥺</p>
-        <div class="yes-no-btns">
-          <button class="btn" onclick="jawabYa()">Sayang Banget! ❤️</button>
-          <button class="btn" id="btnNo" onmouseover="kabur()" onclick="kabur()">Gak 😜</button>
+      <!-- 3. Teks Custom dari Kamu -->
+      <div class="fade-sequence">
+        <div class="custom-text-box">
+          Terima kasih ya udah selalu ada dan bikin hari-hariku jauh lebih indah. Aku beruntung banget punya kamu. Tetap sama aku terus ya, manis! ✨🥰
         </div>
       </div>
+
+      <!-- 4. Pertanyaan & Tombol Kabur -->
+      <div class="fade-sequence">
+        <div class="interactive-question">
+          <p class="question-title">Sayang gak sama aku? 🥺</p>
+          <div class="yes-no-btns">
+            <button class="btn" onclick="jawabYa()">Sayang Banget! ❤️</button>
+            <button class="btn" id="btnNo" onmouseover="kabur()" onclick="kabur()">Gak 😜</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -294,7 +270,6 @@
       heart.classList.add('flying-heart');
       heart.innerHTML = '💖';
       
-      // Random posisi di layar
       const x = Math.random() * (window.innerWidth - 80) + 20;
       const y = Math.random() * (window.innerHeight - 200) + 120;
       
@@ -316,64 +291,37 @@
       container.appendChild(heart);
     }
 
-    // Spawn 2 hati pertama
     createHeart();
     createHeart();
 
     function finishGame() {
       efekConfetti();
       setTimeout(() => {
+        // Pindah layar
         document.getElementById('gameScreen').style.display = 'none';
         document.getElementById('mainScreen').style.display = 'flex';
-        nextMessage(); // Jalankan ketikan pesan pertama
+        
+        // Jalankan transisi muncul berurutan
+        mulaiTransisi();
       }, 600);
     }
 
     // ==========================================
-    // 2. KATA-KATA UCAPAN TERMINAL
-    // EDIT ISI PESAN DI SINI
+    // 2. LOGIKA TRANSISI MUNCUL (FADE SEQUENCE)
     // ==========================================
-    const messages = [
-      "System.out.println('Halo pacar aku yang paling cantik!');",
-      "Loading... 100% Cinta aku gak bakal pernah berkurang.",
-      "Terima kasih udah selalu ada dan bikin hari-hariku indah ✨",
-      "Error 404: Alasan untuk gak sayang kamu TIDAK DITEMUKAN! 🤪",
-      "Happy Girlfriend Day ya manis! Tetap sama aku terus ya ❤️",
-      "(Klik kotak terminal ini untuk ulang pesan 🔄)"
-    ];
-
-    let msgIndex = 0;
-    let charIndex = 0;
-    let isTyping = false;
-    const speed = 40;
-
-    function typeWriter() {
-      const currentMsg = messages[msgIndex];
-      const terminalEl = document.getElementById("textTerminal");
-
-      if (charIndex < currentMsg.length) {
-        terminalEl.innerHTML += currentMsg.charAt(charIndex);
-        charIndex++;
-        setTimeout(typeWriter, speed);
-      } else {
-        isTyping = false;
-      }
-    }
-
-    function nextMessage() {
-      if (isTyping) return;
+    function mulaiTransisi() {
+      const elements = document.querySelectorAll('.fade-sequence');
       
-      const terminalEl = document.getElementById("textTerminal");
-      terminalEl.innerHTML = "";
-      charIndex = 0;
-      isTyping = true;
-      
-      typeWriter();
-      msgIndex = (msgIndex + 1) % messages.length;
+      elements.forEach((el, index) => {
+        // Setiap elemen diberi jeda 800 milidetik (0.8 detik) sebelum muncul
+        setTimeout(() => {
+          el.classList.add('visible');
+        }, index * 800); 
+      });
     }
 
     // ==========================================
-    // 3. EFEK & INTERAKSI
+    // 3. EFEK & INTERAKSI TOMBOL KABUR
     // ==========================================
     function efekConfetti() {
       confetti({
@@ -392,7 +340,7 @@
     }
 
     function jawabYa() {
-      alert("Yeay! Command Executed: I Love You Too! 🥰❤️");
+      alert("Yeay! Aku juga sayang banget sama kamu! 🥰❤️");
       efekConfetti();
     }
   </script>

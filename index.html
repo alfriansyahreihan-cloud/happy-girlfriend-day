@@ -150,9 +150,7 @@
       align-items: center;
     }
 
-    .cat-card:hover, .cat-card:active {
-      transform: translateY(-6px) scale(1.05);
-    }
+    .cat-card:hover, .cat-card:active { transform: translateY(-6px) scale(1.05); }
 
     .cat-card.wrong {
       animation: shake 0.4s ease-in-out;
@@ -244,10 +242,10 @@
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(12px);
       border-radius: 25px;
-      padding: 20px;
-      width: 90%;
+      padding: 18px;
+      width: 92%;
       max-width: 380px;
-      max-height: 90vh;
+      max-height: 92vh;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -275,20 +273,20 @@
       font-size: 2.6rem;
       color: #ff4b72;
       line-height: 1.1;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    /* Penyesuaian Ukuran Frame Foto Proporsional */
+    /* PEMBAHARUAN FRAME FOTO LEBIH TINGGI & BISA KLIK FULLSCREEN */
     .photo-frame {
+      position: relative;
       width: 100%;
-      aspect-ratio: 4 / 3;
-      max-height: 220px;
+      height: 260px; /* Diperbesar agar tampak jelas di HP */
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       margin-bottom: 12px;
       border: 3px solid #fff;
-      flex-shrink: 0;
+      cursor: pointer;
     }
 
     .photo-frame img {
@@ -297,6 +295,40 @@
       object-fit: cover;
       object-position: center;
       display: block;
+    }
+
+    .photo-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* MODAL OVERLAY FULLSCREEN FOTO */
+    #fullScreenModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+
+    #fullScreenModal img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
     }
 
     .custom-text-box {
@@ -348,6 +380,11 @@
 
   <!-- OVERLAY HUJAN KUCING -->
   <div id="catRainOverlay"></div>
+
+  <!-- OVERLAY MODAL FOTO FULLSCREEN -->
+  <div id="fullScreenModal" onclick="closeFullScreen()">
+    <img src="mypacar.jpeg" alt="Foto Pacar Fullscreen">
+  </div>
 
   <!-- MINIGAME 1: TANGKAP PAW & LOVE -->
   <div id="catchGameScreen">
@@ -405,9 +442,11 @@
         <h1 class="header-title">Happy Girlfriend Day! ❤️</h1>
       </div>
 
+      <!-- FOTO BISA DIKLIK UTK FULLSCREEN -->
       <div class="fade-sequence">
-        <div class="photo-frame">
+        <div class="photo-frame" onclick="openFullScreen()">
           <img src="mypacar.jpeg" alt="Foto Pacar">
+          <span class="photo-hint">🔍 Klik Fullscreen</span>
         </div>
       </div>
 
@@ -450,6 +489,15 @@
         document.getElementById('musicBtn').innerText = '🎵';
       }
       isPlaying = !isPlaying;
+    }
+
+    /* FUNGSI FULLSCREEN FOTO */
+    function openFullScreen() {
+      document.getElementById('fullScreenModal').style.display = 'flex';
+    }
+
+    function closeFullScreen() {
+      document.getElementById('fullScreenModal').style.display = 'none';
     }
 
     /* LOGIKA MINIGAME 1: TANGKAP PAW & LOVE */
@@ -499,7 +547,6 @@
       }, 600);
     }
 
-    // Jalankan Game 1 saat dimuat
     startCatchGame();
 
     /* LOGIKA MINIGAME 2: TEBAK KUCING KURIR */
